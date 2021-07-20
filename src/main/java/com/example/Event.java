@@ -40,7 +40,7 @@ public class Event {
             this.getAttendees().add(attendee);
     }
 
-    public void addAttendees(List<Attendee> attendees){
+    public void addAttendees(List<Attendee> attendees){ //añade una lista de persona que asisten al evento
         if(attendees == null)
             return;
 
