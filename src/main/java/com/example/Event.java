@@ -29,7 +29,7 @@ public class Event {
         this.eventNotificationService = eventNotificationService;
     }
 
-    public void addAttendee(Attendee attendee){
+    public void addAttendee(Attendee attendee){ //persona que asiste al evento
         if(attendee == null)
             return;
 
