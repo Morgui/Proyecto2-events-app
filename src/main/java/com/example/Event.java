@@ -71,7 +71,7 @@ public class Event {
         if (this.getAttendees() == null)
             this.setAttendees(new ArrayList<>());
 
-        this.getAttendees().removeIf(attendees::contains);
+        this.getAttendees().removeIf(attendees::contains); //removeIf metodo de los arrayList para borrar
 
     }
 

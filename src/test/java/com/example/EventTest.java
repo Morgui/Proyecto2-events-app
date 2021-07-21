@@ -21,8 +21,8 @@ class EventTest {
 
 	@Mock
 	EventNotificationService mock;
-	
-	@InjectMocks // inyectar los mocks dependencia dentro de la clase 
+
+	@InjectMocks // inyectar los mocks dependencia dentro de la clase
 	EventNotificationServiceImpl eventNotificationService;
 
 	Event event;
@@ -32,14 +32,13 @@ class EventTest {
 		event = new Event(1L, "PyCon", EventType.TECH, eventNotificationService);
 	}
 
-
 	@Test
 	@DisplayName("Test con un attendee null")
 	void testAddAttendeeNull() {
 		int personAmount = event.getAttendees().size();
 		event.addAttendee(null);
 		assertEquals(personAmount, event.getAttendees().size());
-		
+
 	}
 
 	@Test
@@ -48,9 +47,9 @@ class EventTest {
 		Attendee attendee = new Attendee();
 		event.addAttendee(attendee);
 		assertEquals(1, event.getAttendees().size());
-		
+
 	}
-	
+
 	@Test
 	@DisplayName("Test que comprueba si el attendee ya esta en la lista")
 	void testAddAttendeeRepeate() {
@@ -60,7 +59,7 @@ class EventTest {
 		assertEquals(1, event.getAttendees().size());
 
 	}
-	
+
 	@Test
 	@DisplayName("Test que comprueba el añadir un attendee cuya lista es nula")
 	void testAddAttendeeNullList() {
@@ -69,7 +68,7 @@ class EventTest {
 		event.addAttendee(attendee);
 		assertEquals(1, event.getAttendees().size());
 	}
-	
+
 	@Test
 	@DisplayName("Test en el caso de que no se le pase una lista de attendees")
 	void testAddAttendeesNull() {
@@ -77,7 +76,7 @@ class EventTest {
 		event.addAttendees(null);
 		assertEquals(personAmount, event.getAttendees().size());
 	}
-	
+
 	@Test
 	@DisplayName("Test que añade una lista con attendees")
 	void testAddAttendees() {
@@ -85,10 +84,10 @@ class EventTest {
 		attendees.add(new Attendee());
 		int result = event.getAttendees().size();
 		event.addAttendees(attendees);
-		assertEquals(result+1, event.getAttendees().size());
-		
+		assertEquals(result + 1, event.getAttendees().size());
+
 	}
-	
+
 	@Test
 	@DisplayName("Test que comprueba una lista con un attendee repetio")
 	void testAddAttendeesRepetive() {
@@ -98,10 +97,10 @@ class EventTest {
 		attendees.add(attendee);
 		attendees.add(attendee);
 		event.addAttendees(attendees);
-		assertEquals(result+1, event.getAttendees().size());
+		assertEquals(result + 1, event.getAttendees().size());
 
 	}
-	
+
 	@Test
 	@DisplayName("Test que añade los elementos cuando la lista es nula, inicializando y añadiendo en una nueva lista")
 	void testAddAttendeesNullList() {
@@ -111,7 +110,7 @@ class EventTest {
 		event.addAttendees(attendees);
 		assertEquals(1, event.getAttendees().size());
 	}
-	
+
 	@Test
 	@DisplayName("Test que comprueba que no hace nada cuando se le pasa un attendee null")
 	void testRemoveAttendeeNull() {
@@ -119,7 +118,7 @@ class EventTest {
 		event.removeAttendee(null);
 		assertEquals(personAmount, event.getAttendees().size());
 	}
-	
+
 	@Test
 	@DisplayName("Test para comprobar que se crea una lista, cuando esta es null")
 	void testRemoveAttendeeNullList() {
@@ -128,7 +127,7 @@ class EventTest {
 		event.removeAttendee(attendee);
 		assertEquals(0L, event.getAttendees().size());
 	}
-	
+
 	@Test
 	@DisplayName("Test que comprueba que se borra el attendee dado")
 	void testRemoveAttendee() {
@@ -136,9 +135,9 @@ class EventTest {
 		event.addAttendee(attendee);
 		int personAmount = event.getAttendees().size();
 		event.removeAttendee(attendee);
-		assertEquals(personAmount-1, event.getAttendees().size());
+		assertEquals(personAmount - 1, event.getAttendees().size());
 	}
-	
+
 	@Test
 	@DisplayName("Test comprueba que el metodo no falla cuando se intenta borrar a alguien que no esta añadido")
 	void testRemoveAttendeeNotExists() {
@@ -147,4 +146,45 @@ class EventTest {
 		event.removeAttendee(attendee);
 		assertEquals(personAmount, event.getAttendees().size());
 	}
+
+	@Test
+	@DisplayName("Test que al pasar un null al metodo no borra los elementos de la lista de attendee")
+	void testRemoveAttendeesNull() {
+		int personAmount = event.getAttendees().size();
+		event.removeAttendees(null);
+		assertEquals(personAmount, event.getAttendees().size());
+	}
+
+	@Test
+	@DisplayName("Test que comprueba que se crea una lista nueva vacia cuando se borra una null")
+	void testRemoveAttendeesNullList() {
+		List<Attendee> attendees = new ArrayList<>();
+		event.setAttendees(null);
+		event.removeAttendees(attendees);
+		assertEquals(0, event.getAttendees().size());
+	}
+
+	@Test
+	@DisplayName("Test que comprueba que se borra la lista dada")
+	void testRemoveAttendees() {
+		List<Attendee> attendees = new ArrayList<Attendee>();
+		Attendee attendee = new Attendee(1L, "patatita", "patita@example.com");
+		attendees.add(attendee);
+		event.addAttendees(attendees);
+		int result = event.getAttendees().size();
+		event.removeAttendees(attendees);
+		assertEquals(result -1, event.getAttendees().size());
+	}
+	
+	@Test
+	@DisplayName("Test que comprueba que no borra nada cuando se le pasa una lista no registrada")
+	void testRemoveAttendeesNotExists() {
+		List<Attendee> attendees = new ArrayList<Attendee>();
+		attendees.add(new Attendee());
+		int result = event.getAttendees().size();
+		event.removeAttendees(attendees);
+		assertEquals(result, event.getAttendees().size());
+	}
+	
+	
 }
