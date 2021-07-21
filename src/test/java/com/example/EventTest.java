@@ -207,5 +207,22 @@ class EventTest {
 		event.addSpeaker(speaker);
 		assertEquals(speakerAmount+1, event.getSpeakers().size());
 	}
+	@Test
+	@DisplayName("Test que comprueba que no hace nada cuando se le pasa un speaker null")
+	void testRemoveSpeakerNull() {
+		int result = event.getSpeakers().size();
+		event.removeSpeaker(null);
+		assertEquals(result, event.getSpeakers().size());
+		
+	}
 	
+	@Test
+	@DisplayName("Test que comprueba que borra el speaker correctamente")
+	void testRemoveSpeaker() {
+		Speaker speaker = new Speaker();
+		event.addSpeaker(speaker);
+		int result = event.getSpeakers().size();
+		event.removeSpeaker(speaker);
+		assertEquals(result-1, event.getSpeakers().size());
+	}
 }
