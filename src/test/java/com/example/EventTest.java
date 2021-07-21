@@ -36,9 +36,9 @@ class EventTest {
 	@Test
 	@DisplayName("Test con un attendee null")
 	void testAddAttendeeNull() {
-		int number = event.getAttendees().size();
+		int personAmount = event.getAttendees().size();
 		event.addAttendee(null);
-		assertEquals(number, event.getAttendees().size());
+		assertEquals(personAmount, event.getAttendees().size());
 		
 	}
 
@@ -73,9 +73,9 @@ class EventTest {
 	@Test
 	@DisplayName("Test en el caso de que no se le pase una lista de attendees")
 	void testAddAttendeesNull() {
-		int number = event.getAttendees().size();
+		int personAmount = event.getAttendees().size();
 		event.addAttendees(null);
-		assertEquals(number, event.getAttendees().size());
+		assertEquals(personAmount, event.getAttendees().size());
 	}
 	
 	@Test
@@ -112,4 +112,39 @@ class EventTest {
 		assertEquals(1, event.getAttendees().size());
 	}
 	
+	@Test
+	@DisplayName("Test que comprueba que no hace nada cuando se le pasa un attendee null")
+	void testRemoveAttendeeNull() {
+		int personAmount = event.getAttendees().size();
+		event.removeAttendee(null);
+		assertEquals(personAmount, event.getAttendees().size());
+	}
+	
+	@Test
+	@DisplayName("Test para comprobar que se crea una lista, cuando esta es null")
+	void testRemoveAttendeeNullList() {
+		Attendee attendee = new Attendee();
+		event.setAttendees(null);
+		event.removeAttendee(attendee);
+		assertEquals(0L, event.getAttendees().size());
+	}
+	
+	@Test
+	@DisplayName("Test que comprueba que se borra el attendee dado")
+	void testRemoveAttendee() {
+		Attendee attendee = new Attendee();
+		event.addAttendee(attendee);
+		int personAmount = event.getAttendees().size();
+		event.removeAttendee(attendee);
+		assertEquals(personAmount-1, event.getAttendees().size());
+	}
+	
+	@Test
+	@DisplayName("Test comprueba que el metodo no falla cuando se intenta borrar a alguien que no esta añadido")
+	void testRemoveAttendeeNotExists() {
+		Attendee attendee = new Attendee();
+		int personAmount = event.getAttendees().size();
+		event.removeAttendee(attendee);
+		assertEquals(personAmount, event.getAttendees().size());
+	}
 }
