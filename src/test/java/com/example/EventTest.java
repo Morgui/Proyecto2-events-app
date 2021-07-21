@@ -186,5 +186,26 @@ class EventTest {
 		assertEquals(result, event.getAttendees().size());
 	}
 	
+//	@Test
+//	void testNotifyAssistants() {
+//		TODO: usa el eventNotificationService;
+//	}
+	
+	@Test
+	@DisplayName("Test que comprueba que la lista de speakers no cambia al pasarle un null")
+	void testAddSpeakerNull() {
+		int speakerAmount = event.getSpeakers().size();
+		event.addSpeaker(null);
+		assertEquals(speakerAmount, event.getSpeakers().size());
+	}
+	
+	@Test
+	@DisplayName("Test que comprueba que añade el speaker correctamente")
+	void testAddSpeaker() {
+		Speaker speaker = new Speaker(1L, "Gopher", "Go");
+		int speakerAmount = event.getSpeakers().size();
+		event.addSpeaker(speaker);
+		assertEquals(speakerAmount+1, event.getSpeakers().size());
+	}
 	
 }
