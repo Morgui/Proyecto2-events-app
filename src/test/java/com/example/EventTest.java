@@ -240,5 +240,12 @@ class EventTest {
 		assertEquals(2L, event.getId());
 	}
 	
+	@Test
+	@DisplayName("Test que comprueba el cambio correcto del Title")
+	void testSetTitle() {
+		event.setTitle("JavaWorld");
+		assertEquals("JavaWorld", event.getTitle());
+		}
+	
 }
 
