@@ -233,5 +233,12 @@ class EventTest {
 		assertEquals(result-1, event.getSpeakers().size());
 	}
 	
+	@Test
+	@DisplayName("Test que comprueba el cambio correcto del Id")
+	void testSetId() {
+		event.setId(2L);
+		assertEquals(2L, event.getId());
+	}
+	
 }
 
