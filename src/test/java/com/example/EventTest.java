@@ -251,6 +251,18 @@ class EventTest {
 	@DisplayName("Test que comprueba el cambio correcto del Type")
 	void testSetType() {
 		event.setType(EventType.BUSINESS);
-		assertEquals(EventType.BUSINESS, event.getType());	}
+		assertEquals(EventType.BUSINESS, event.getType());	
+		}
+	
+	@Test
+	@DisplayName("Test que comprueba el cambio correcto de lista de speakers por lo dada")
+	void testSetSpeakers() {
+		List<Speaker> speakers = new ArrayList<Speaker>();
+		Speaker speaker = new Speaker();
+		speakers.add(speaker);
+		event.setSpeakers(speakers);
+		assertEquals(speaker, event.getSpeakers().get(0));
+		assertEquals(1, event.getSpeakers().size());
+	}
 }
 
