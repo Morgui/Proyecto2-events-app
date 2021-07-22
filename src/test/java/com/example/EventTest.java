@@ -1,6 +1,8 @@
 package com.example;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,31 +15,31 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.service.EventNotificationService;
 import com.example.service.EventNotificationServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class EventTest {
 
 	@Mock
-	EventNotificationService mock;
+	EventNotificationServiceImpl eventNotificationService;
 
 	@InjectMocks // inyectar los mocks dependencia dentro de la clase
-	EventNotificationServiceImpl eventNotificationService;
+	Event evento;
 
 	Event event;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		event = new Event(1L, "PyCon", EventType.TECH, eventNotificationService);
+		event = new Event(1L, "PyCon", EventType.TECH, new EventNotificationServiceImpl());
 	}
 
 	@Test
 	@DisplayName("Test con un attendee null")
 	void testAddAttendeeNull() {
+		Event evento = new Event();
 		int personAmount = event.getAttendees().size();
-		event.addAttendee(null);
-		assertEquals(personAmount, event.getAttendees().size());
+		evento.addAttendee(null);
+		assertEquals(personAmount, evento.getAttendees().size());
 
 	}
 
@@ -173,9 +175,9 @@ class EventTest {
 		event.addAttendees(attendees);
 		int result = event.getAttendees().size();
 		event.removeAttendees(attendees);
-		assertEquals(result -1, event.getAttendees().size());
+		assertEquals(result - 1, event.getAttendees().size());
 	}
-	
+
 	@Test
 	@DisplayName("Test que comprueba que no borra nada cuando se le pasa una lista no registrada")
 	void testRemoveAttendeesNotExists() {
@@ -185,12 +187,16 @@ class EventTest {
 		event.removeAttendees(attendees);
 		assertEquals(result, event.getAttendees().size());
 	}
-	
-//	@Test
-//	void testNotifyAssistants() {
-//		TODO: usa el eventNotificationService;
-//	}
-	
+
+	/*
+	 * Metodo notifyAssistans testeado usando un mock (Mockito) para la dependencia EventNotificationService usada en Event
+	 */
+	@Test
+	void testNotifyAssistants() {
+		evento.notifyAssistants();
+		verify(eventNotificationService, times(1)).announce(evento);
+	}
+
 	@Test
 	@DisplayName("Test que comprueba que la lista de speakers no cambia al pasarle un null")
 	void testAddSpeakerNull() {
@@ -198,24 +204,25 @@ class EventTest {
 		event.addSpeaker(null);
 		assertEquals(speakerAmount, event.getSpeakers().size());
 	}
-	
+
 	@Test
 	@DisplayName("Test que comprueba que añade el speaker correctamente")
 	void testAddSpeaker() {
 		Speaker speaker = new Speaker(1L, "Gopher", "Go");
 		int speakerAmount = event.getSpeakers().size();
 		event.addSpeaker(speaker);
-		assertEquals(speakerAmount+1, event.getSpeakers().size());
+		assertEquals(speakerAmount + 1, event.getSpeakers().size());
 	}
+
 	@Test
 	@DisplayName("Test que comprueba que no hace nada cuando se le pasa un speaker null")
 	void testRemoveSpeakerNull() {
 		int result = event.getSpeakers().size();
 		event.removeSpeaker(null);
 		assertEquals(result, event.getSpeakers().size());
-		
+
 	}
-	
+
 	@Test
 	@DisplayName("Test que comprueba que borra el speaker correctamente")
 	void testRemoveSpeaker() {
@@ -225,4 +232,6 @@ class EventTest {
 		event.removeSpeaker(speaker);
 		assertEquals(result-1, event.getSpeakers().size());
 	}
+	
 }
+
