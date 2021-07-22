@@ -246,6 +246,11 @@ class EventTest {
 		event.setTitle("JavaWorld");
 		assertEquals("JavaWorld", event.getTitle());
 		}
-	
+
+	@Test
+	@DisplayName("Test que comprueba el cambio correcto del Type")
+	void testSetType() {
+		event.setType(EventType.BUSINESS);
+		assertEquals(EventType.BUSINESS, event.getType());	}
 }
 
