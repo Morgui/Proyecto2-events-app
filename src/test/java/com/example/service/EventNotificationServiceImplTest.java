@@ -53,12 +53,32 @@ class EventNotificationServiceImplTest {
 	@Test
 	@DisplayName("Test que comprueba que se añada la notificación al attendee")
 	void testAnnounce() {
-		Attendee attendee = new Attendee();
 		event.addAttendee(attendee);
 		
 		event.notifyAssistants();
 		assertEquals(1, attendee.getNotifications().size());
 		assertEquals("The next big event is coming!", attendee.getNotifications().get(0).getMessage());
 	}
-
+	
+	@Test
+	@DisplayName("Test que comprueba que el event es null y por tanto el attendde no tiene mensajes")
+	void testConfirmAttendanceAttendeeNull() {
+		eventNotificationService.confirmAttendance(null, attendee);
+		assertEquals(0, attendee.getNotifications().size());
+	}
+	
+	@Test
+	@DisplayName("solo cubre cobertura")
+	void testConfirmAttendanceNull() {
+		eventNotificationService.confirmAttendance(event, null);
+		eventNotificationService.confirmAttendance(null, null);
+	}
+	
+	@Test
+	@DisplayName ("Test que manda un mensaje de confirmación al attendee")
+	void testConfirmAttendance() {	
+		eventNotificationService.confirmAttendance(event, attendee);
+		assertEquals(1, attendee.getNotifications().size());
+		assertEquals("Dear Attendee, your subscription to the event has been confirmed successfully.", attendee.getNotifications().get(0).getMessage());
+	}
 }
