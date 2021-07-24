@@ -27,26 +27,27 @@ class EventTest {
 	Event evento;
 
 	Event event;
+	Attendee attendee;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		event = new Event(1L, "PyCon", EventType.TECH, new EventNotificationServiceImpl());
+		attendee = new Attendee(1L, "morgui", "morgui@email.com");
 	}
 
 	@Test
 	@DisplayName("Test con un attendee null")
 	void testAddAttendeeNull() {
-		Event evento = new Event();
-		int personAmount = event.getAttendees().size();
-		evento.addAttendee(null);
-		assertEquals(personAmount, evento.getAttendees().size());
+		Event event2 = new Event();
+		int personAmount = event2.getAttendees().size();
+		event2.addAttendee(null);
+		assertEquals(personAmount, event2.getAttendees().size());
 
 	}
 
 	@Test
 	@DisplayName("Test que añade un attendee que no esté en la lista")
 	void testAddAttendeeExists() {
-		Attendee attendee = new Attendee();
 		event.addAttendee(attendee);
 		assertEquals(1, event.getAttendees().size());
 
@@ -55,7 +56,6 @@ class EventTest {
 	@Test
 	@DisplayName("Test que comprueba si el attendee ya esta en la lista")
 	void testAddAttendeeRepeate() {
-		Attendee attendee = new Attendee();
 		event.addAttendee(attendee);
 		event.addAttendee(attendee);
 		assertEquals(1, event.getAttendees().size());
@@ -65,7 +65,6 @@ class EventTest {
 	@Test
 	@DisplayName("Test que comprueba el añadir un attendee cuya lista es nula")
 	void testAddAttendeeNullList() {
-		Attendee attendee = new Attendee();
 		event.setAttendees(null);
 		event.addAttendee(attendee);
 		assertEquals(1, event.getAttendees().size());
@@ -83,7 +82,7 @@ class EventTest {
 	@DisplayName("Test que añade una lista con attendees")
 	void testAddAttendees() {
 		List<Attendee> attendees = new ArrayList<>();
-		attendees.add(new Attendee());
+		attendees.add(new Attendee(2L, "javero", "javero@email.com"));
 		int result = event.getAttendees().size();
 		event.addAttendees(attendees);
 		assertEquals(result + 1, event.getAttendees().size());
@@ -94,7 +93,6 @@ class EventTest {
 	@DisplayName("Test que comprueba una lista con un attendee repetio")
 	void testAddAttendeesRepetive() {
 		List<Attendee> attendees = new ArrayList<>();
-		Attendee attendee = new Attendee();
 		int result = event.getAttendees().size();
 		attendees.add(attendee);
 		attendees.add(attendee);
@@ -107,7 +105,7 @@ class EventTest {
 	@DisplayName("Test que añade los elementos cuando la lista es nula, inicializando y añadiendo en una nueva lista")
 	void testAddAttendeesNullList() {
 		List<Attendee> attendees = new ArrayList<>();
-		attendees.add(new Attendee());
+		attendees.add(new Attendee(3L, "Redfury", "redfury@redfury.com"));
 		event.setAttendees(null);
 		event.addAttendees(attendees);
 		assertEquals(1, event.getAttendees().size());
@@ -133,7 +131,6 @@ class EventTest {
 	@Test
 	@DisplayName("Test que comprueba que se borra el attendee dado")
 	void testRemoveAttendee() {
-		Attendee attendee = new Attendee();
 		event.addAttendee(attendee);
 		int personAmount = event.getAttendees().size();
 		event.removeAttendee(attendee);
@@ -143,7 +140,6 @@ class EventTest {
 	@Test
 	@DisplayName("Test comprueba que el metodo no falla cuando se intenta borrar a alguien que no esta añadido")
 	void testRemoveAttendeeNotExists() {
-		Attendee attendee = new Attendee();
 		int personAmount = event.getAttendees().size();
 		event.removeAttendee(attendee);
 		assertEquals(personAmount, event.getAttendees().size());
@@ -182,7 +178,7 @@ class EventTest {
 	@DisplayName("Test que comprueba que no borra nada cuando se le pasa una lista no registrada")
 	void testRemoveAttendeesNotExists() {
 		List<Attendee> attendees = new ArrayList<Attendee>();
-		attendees.add(new Attendee());
+		attendees.add(attendee);
 		int result = event.getAttendees().size();
 		event.removeAttendees(attendees);
 		assertEquals(result, event.getAttendees().size());
@@ -192,6 +188,7 @@ class EventTest {
 	 * Metodo notifyAssistans testeado usando un mock (Mockito) para la dependencia EventNotificationService usada en Event
 	 */
 	@Test
+	@DisplayName("Test notifyAssistants with Mock")
 	void testNotifyAssistants() {
 		evento.notifyAssistants();
 		verify(eventNotificationService, times(1)).announce(evento);
@@ -226,7 +223,7 @@ class EventTest {
 	@Test
 	@DisplayName("Test que comprueba que borra el speaker correctamente")
 	void testRemoveSpeaker() {
-		Speaker speaker = new Speaker();
+		Speaker speaker = new Speaker(2L, "Octocat", "GitHub");
 		event.addSpeaker(speaker);
 		int result = event.getSpeakers().size();
 		event.removeSpeaker(speaker);
@@ -258,7 +255,7 @@ class EventTest {
 	@DisplayName("Test que comprueba el cambio correcto de lista de speakers por lo dada")
 	void testSetSpeakers() {
 		List<Speaker> speakers = new ArrayList<Speaker>();
-		Speaker speaker = new Speaker();
+		Speaker speaker = new Speaker(3L, "Test", "Jenkins");
 		speakers.add(speaker);
 		event.setSpeakers(speakers);
 		assertEquals(speaker, event.getSpeakers().get(0));
