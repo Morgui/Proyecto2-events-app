@@ -16,7 +16,6 @@ public class Event {
     private List<Speaker> speakers = new ArrayList<>();
     private List<Attendee> attendees = new ArrayList<>();
 
-    //(se declara un nuevo eventNotificationService del de la interface)
     private EventNotificationService eventNotificationService; // mock 
 
     public Event(){

@@ -6,7 +6,6 @@ import com.example.Notification;
 
 public class EventNotificationServiceImpl implements EventNotificationService {
 
-
     private static final String MSG_ANNOUNCE = "The next big event is coming!";
     private static final String MSG_CONFIRM = "Dear Attendee, your subscription to the event has been confirmed successfully.";
 
